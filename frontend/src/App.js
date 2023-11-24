@@ -4,6 +4,10 @@ import Header from './components/layouts/Header';
 import Home from './components/Home';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import { ToastContainer } from 'react-toastify'
+import ProductDetail from './components/product/ProductDetail';
+import 'react-toastify/dist/ReactToastify.css';
+import ProductSearch from './components/product/ProductSearch';
 
 
 function App() {
@@ -12,9 +16,14 @@ function App() {
       <div className="App">
         <HelmetProvider>
           <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-          </Routes>
+          <div className='container container-fluid'>
+            <ToastContainer theme='dark' />
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path='/search/:keyword' element={<ProductSearch />} />
+            </Routes>
+          </div>
           <Footer />
         </HelmetProvider>
       </div>

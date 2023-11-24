@@ -26,15 +26,14 @@ class APIFeatures {
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)/g, match => `$${match}`);
 
         this.query.find(JSON.parse(queryStr))
-        console.log(this.query.find(JSON.parse(queryStr)));
         return this;
     }
 
-    paginate(resultPerPage) {
+    paginate(resPerPage) {
         const currentPage = Number(this.queryStr.page) || 1;
-        const skip=resultPerPage *currentPage-1;
-        this.query.limit(resultPerPage).skip(skip);
-        return this
+        const skip = resPerPage * (currentPage - 1)
+        this.query.limit(resPerPage).skip(skip);
+        return this;
     }
 }
 
