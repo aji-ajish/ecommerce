@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import MetaData from './layouts/MetaData'
-import { getProducts } from '../actions/productsActions'
+import { getProducts } from '../actions/productActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from './layouts/Loader';
 import Product from './product/Product';
@@ -39,7 +39,7 @@ export default function Home() {
                     <section id="products" className="container mt-5">
                         <div className="row">
                             {products && products.map(product => (
-                                <Product product={product} key={product._id} />
+                                <Product product={product} key={product._id} col={4}/>
                             ))}
                         </div>
                     </section>

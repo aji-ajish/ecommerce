@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProduct } from '../../actions/productAction'
+import { getProduct } from '../../actions/productActions'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import Loader from '../layouts/Loader';
