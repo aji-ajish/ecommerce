@@ -18,7 +18,7 @@ export default function Register() {
 
     const onChange = (e) => {
         if (e.target.name === 'avatar') {
-            const reader = new FileReader;
+            const reader = new FileReader();
             reader.onload = () => {
                 if (reader.readyState === 2) {
                     setAvatarPreview(reader.result)
@@ -38,7 +38,6 @@ export default function Register() {
         formData.append('password', userData.password)
         formData.append('avatar', avatar)
         dispatch(register(formData))
-        console.log(formData);
     }
 
     useEffect(() => {
@@ -103,7 +102,7 @@ export default function Register() {
                                     <img
                                         src={avatarPreview}
                                         className='rounded-circle'
-                                        alt='image'
+                                        alt='User Avatar Preview'
                                     />
                                 </figure>
                             </div>

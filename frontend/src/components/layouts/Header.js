@@ -1,10 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Search from './Search'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {  Dropdown, Image } from 'react-bootstrap';
+import { logout } from '../../actions/userActions';
 
 export default function Header() {
-    const { isAuthenticated } = useSelector((state) => state.authState)
+    const { user, isAuthenticated } = useSelector((state) => state.authState)
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
+
+    const logoutHandler=()=>{
+        dispatch(logout)
+    }
 
     return (
         <nav className="navbar row">
@@ -20,10 +28,25 @@ export default function Header() {
                 <Search />
             </div>
 
-            <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-                {!isAuthenticated ?
+            <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">{
+                isAuthenticated ? (
+                    <Dropdown className='d-inline' >
+                        <Dropdown.Toggle variant='default text-white pr-5' id='dropdown-basic'>
+                            <figure className='avatar avatar-nav'>
+                                <Image width="50px" src={user.avatar ?? './images/default_avatar.png'} />
+                            </figure>
+                            <span>{user.name}</span>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {user.role === 'admin' && <Dropdown.Item onClick={() => { navigate('admin/dashboard') }} className='text-dark'>Dashboard</Dropdown.Item>}
+                            <Dropdown.Item onClick={() => { navigate('/myprofile') }} className='text-dark'>Profile</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { navigate('/orders') }} className='text-dark'>Orders</Dropdown.Item>
+                            <Dropdown.Item onClick={logoutHandler} className='text-danger'>Logout</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                ) :
                     <Link to='/login' className="btn" id="login_btn">Login</Link>
-                    : <Link to='#' className="btn" id="login_btn">Profile</Link>}
+            }
 
                 <span id="cart" className="ml-3">Cart</span>
                 <span className="ml-1" id="cart_count">2</span>

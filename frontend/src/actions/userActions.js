@@ -1,9 +1,13 @@
 import axios from "axios"
 import {
     clearError,
+    loadUserFail,
+    loadUserRequest,
+    loadUserSuccess,
     loginFail,
     loginRequest,
     loginSuccess,
+    logoutFail,
     registerFail,
     registerRequest,
     registerSuccess
@@ -33,6 +37,27 @@ export const register = (userData) => async (dispatch) => {
     } catch (error) {
         // handle error
         dispatch(registerFail(error.response.data.message))
+    }
+}
+
+export const loadUser = async (dispatch) => {
+    try {
+        dispatch(loadUserRequest())
+        const { data } = await axios.get(`/api/v1/myprofile`)
+        dispatch(loadUserSuccess(data))
+    } catch (error) {
+        // handle error
+        dispatch(loadUserFail(error.response.data.message))
+    }
+}
+
+export const logout = async (dispatch) => {
+    try {
+        await axios.get(`/api/v1/logout`)
+        dispatch(loginSuccess())
+    } catch (error) {
+        // handle error
+        dispatch(logoutFail)
     }
 }
 

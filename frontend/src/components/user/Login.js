@@ -21,8 +21,8 @@ export default function Login() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/')
-            return
+             navigate('/')
+             return
         }
         if (error) {
             toast(error, {

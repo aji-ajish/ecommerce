@@ -11,7 +11,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     const { name, email, password } = req.body
     let avatar;
     if (req.file) {
-        avatar = `${req.protocol}://${req.host}/uploads/user/${req.file.originalname}`
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
     }
     const user = await User.create({
         name, email, password, avatar
