@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 export default function Search() {
 
     const navigate = useNavigate()
-    const location=useLocation()
+    const location = useLocation()
     const [keyword, setKeyword] = useState('')
 
     const searchHandler = (e) => {
@@ -12,15 +12,15 @@ export default function Search() {
         navigate(`/search/${keyword}`)
     }
 
-    const clearKeyword=()=>{
+    const clearKeyword = () => {
         setKeyword('')
     }
 
-    useEffect(()=>{
-        if(location.pathname=='/'){
+    useEffect(() => {
+        if (location.pathname === '/') {
             clearKeyword()
         }
-    },[location])
+    }, [location])
 
     return (
         <form onSubmit={searchHandler}>
