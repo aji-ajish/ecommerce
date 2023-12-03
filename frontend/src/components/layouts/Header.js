@@ -2,16 +2,16 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Search from './Search'
 import { useDispatch, useSelector } from 'react-redux'
-import {  Dropdown, Image } from 'react-bootstrap';
+import { Dropdown, Image } from 'react-bootstrap';
 import { logout } from '../../actions/userActions';
 
 export default function Header() {
     const { user, isAuthenticated } = useSelector((state) => state.authState)
-    const navigate=useNavigate()
-    const dispatch=useDispatch()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const logoutHandler=()=>{
-        dispatch(logout)
+    const logoutHandler = () => {
+        dispatch(logout);
         navigate('/')
     }
 
