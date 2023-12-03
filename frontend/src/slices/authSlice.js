@@ -102,26 +102,25 @@ const authSlice = createSlice({
                 error: action.payload
             }
         },
-        updatePasswordRequest(state, action) {
+        updatePasswordRequest(state, action){
             return {
                 ...state,
                 loading: true,
-                isUpdated:false
+                isUpdated: false
             }
         },
-        updatePasswordSuccess(state, action) {
+        updatePasswordSuccess(state, action){
             return {
                 ...state,
                 loading: false,
-                user: action.payload.user,
-                isUpdated:true
+                isUpdated: true
             }
         },
-        updatePasswordFail(state, action) {
+        updatePasswordFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload
+                error:  action.payload
             }
         },
         clearError(state, action) {

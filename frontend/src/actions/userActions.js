@@ -86,20 +86,20 @@ export const updateProfile = (userData) => async (dispatch) => {
 }
 
 export const updatePassword = (formData) => async (dispatch) => {
-    
+
     try {
         dispatch(updatePasswordRequest())
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                'Content-type': 'application/json'
             }
         }
-        await axios.put(`/api/v1/password/change`, formData, config)
+        await axios.put(`/api/v1/password/change`, formData, config);
         dispatch(updatePasswordSuccess())
     } catch (error) {
-        // handle error
-        dispatch(updatePasswordFail(error))
+        dispatch(updatePasswordFail(error.response.data.message))
     }
+
 }
 
 export const clearAuthError = dispatch => {
