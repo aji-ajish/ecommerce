@@ -80,6 +80,50 @@ const authSlice = createSlice({
                 error:  action.payload
             }
         },
+        updateProfileRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+                isUpdated:false
+            }
+        },
+        updateProfileSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                user: action.payload.user,
+                isUpdated:true
+            }
+        },
+        updateProfileFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        },
+        updatePasswordRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+                isUpdated:false
+            }
+        },
+        updatePasswordSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                user: action.payload.user,
+                isUpdated:true
+            }
+        },
+        updatePasswordFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        },
         clearError(state, action) {
             return {
                 ...state,
@@ -101,5 +145,11 @@ export const {
     loadUserSuccess,
     loadUserFail,
     logoutSuccess,
-    logoutFail } = authSlice.actions
+    logoutFail,
+    updateProfileRequest,
+    updateProfileSuccess,
+    updateProfileFail,
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updatePasswordFail } = authSlice.actions
 export default authSlice.reducer

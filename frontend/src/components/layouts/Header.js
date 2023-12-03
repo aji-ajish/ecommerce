@@ -12,6 +12,7 @@ export default function Header() {
 
     const logoutHandler=()=>{
         dispatch(logout)
+        navigate('/')
     }
 
     return (

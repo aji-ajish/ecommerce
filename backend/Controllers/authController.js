@@ -9,6 +9,7 @@ const { findOne } = require('../models/productModel')
 //register user  /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
     const { name, email, password } = req.body
+
     let avatar;
     if (req.file) {
         avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
@@ -127,19 +128,26 @@ exports.changePassword = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler('Old password is incorrect', 401))
     }
 
+
     // assign new password
     user.password = req.body.password;
     await user.save();
     res.status(200).json({
-        success: true
+        success: true,
+        user
     })
 })
 
 // update profile /api/v1/update
 exports.updateProfile = catchAsyncError(async (req, res, next) => {
-    const newUserData = {
+    let newUserData = {
         name: req.body.name,
         email: req.body.email,
+    }
+    let avatar;
+    if (req.file) {
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
+        newUserData = { ...newUserData, avatar }
     }
 
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
@@ -148,7 +156,8 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
     })
 
     res.status(200).json({
-        success: true
+        success: true,
+        user
     })
 })
 

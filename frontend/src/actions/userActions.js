@@ -8,9 +8,16 @@ import {
     loginRequest,
     loginSuccess,
     logoutFail,
+    logoutSuccess,
     registerFail,
     registerRequest,
-    registerSuccess
+    registerSuccess,
+    updatePasswordFail,
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updateProfileFail,
+    updateProfileRequest,
+    updateProfileSuccess
 } from "../slices/authSlice"
 
 export const login = (email, password) => async (dispatch) => {
@@ -27,12 +34,12 @@ export const login = (email, password) => async (dispatch) => {
 export const register = (userData) => async (dispatch) => {
     try {
         dispatch(registerRequest())
-        const config={
-            headers:{
+        const config = {
+            headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }
-        const { data } = await axios.post(`/api/v1/register`, userData,config)
+        const { data } = await axios.post(`/api/v1/register`, userData, config)
         dispatch(registerSuccess(data))
     } catch (error) {
         // handle error
@@ -52,12 +59,46 @@ export const loadUser = async (dispatch) => {
 }
 
 export const logout = async (dispatch) => {
+
     try {
-        await axios.get(`/api/v1/logout`)
-        dispatch(loginSuccess())
+        await axios.get(`/api/v1/logout`);
+        dispatch(logoutSuccess())
+    } catch (error) {
+        dispatch(logoutFail)
+    }
+
+}
+
+export const updateProfile = (userData) => async (dispatch) => {
+    try {
+        dispatch(updateProfileRequest())
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        const { data } = await axios.put(`/api/v1/update`, userData, config)
+        dispatch(updateProfileSuccess(data))
     } catch (error) {
         // handle error
-        dispatch(logoutFail)
+        dispatch(updateProfileFail(error.response.data.message))
+    }
+}
+
+export const updatePassword = (formData) => async (dispatch) => {
+    
+    try {
+        dispatch(updatePasswordRequest())
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        await axios.put(`/api/v1/password/change`, formData, config)
+        dispatch(updatePasswordSuccess())
+    } catch (error) {
+        // handle error
+        dispatch(updatePasswordFail(error))
     }
 }
 

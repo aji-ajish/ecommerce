@@ -1,49 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearAuthError, register } from '../../actions/userActions'
-import { useNavigate } from 'react-router-dom';
+import { clearAuthError, updateProfile } from '../../actions/userActions'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import MetaData from '../layouts/MetaData';
 
-export default function Register() {
-    const [userData, setUserData] = useState({
-        name: '',
-        email: '',
-        password: ''
-    })
+export default function UpdateProfile() {
+    const { user, error, isUpdated } = useSelector((state) => state.authState)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
     const [avatar, setAvatar] = useState('')
     const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.png')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { loading, error, isAuthenticated } = useSelector((state) => state.authState)
 
-    const onChange = (e) => {
-        if (e.target.name === 'avatar') {
-            const reader = new FileReader();
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    setAvatarPreview(reader.result)
-                    setAvatar(e.target.files[0])
-                }
+    const onChangeAvatar = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setAvatarPreview(reader.result)
+                setAvatar(e.target.files[0])
             }
-            reader.readAsDataURL(e.target.files[0])
         }
-        setUserData({ ...userData, [e.target.name]: e.target.value })
+        reader.readAsDataURL(e.target.files[0])
     }
 
     const submitHandler = (e) => {
         e.preventDefault()
         const formData = new FormData();
-        formData.append('name', userData.name)
-        formData.append('email', userData.email)
-        formData.append('password', userData.password)
+        formData.append('name', name)
+        formData.append('email', email)
         formData.append('avatar', avatar)
-        dispatch(register(formData))
+        dispatch(updateProfile(formData))
     }
 
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/login')
+        if (user) {
+            setName(user.name)
+            setEmail(user.email)
+            if (user.avatar) {
+                setAvatarPreview(user.avatar)
+            }
+        }
+        if (isUpdated) {
+            toast('Profile updated successfully', {
+                type: 'success',
+                position: toast.POSITION.BOTTOM_CENTER
+            })
+            navigate('/myprofile')
             return
         }
         if (error) {
@@ -56,23 +60,25 @@ export default function Register() {
             })
             return
         }
-
-    }, [isAuthenticated, navigate, error, dispatch])
+    }, [user, isUpdated, error, dispatch, navigate])
     return (
         <>
-            <MetaData title={'Register'} />
+            <MetaData title={'Update Profile'} />
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data' autoComplete='off'>
-                        <h1 className="mb-3">Register</h1>
+                    <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data'>
+                        <h1 className="mt-2 mb-5">Update Profile</h1>
 
                         <div className="form-group">
                             <label htmlFor="email_field">Name</label>
-                            <input name='name'
-                                onChange={onChange}
+                            <input
                                 type="name"
                                 id="name_field"
-                                className="form-control" />
+                                className="form-control"
+                                name='name'
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </div>
 
                         <div className="form-group">
@@ -82,18 +88,8 @@ export default function Register() {
                                 id="email_field"
                                 className="form-control"
                                 name='email'
-                                onChange={onChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="password_field">Password</label>
-                            <input
-                                type="password"
-                                id="password_field"
-                                className="form-control"
-                                name='password'
-                                onChange={onChange}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
 
@@ -105,7 +101,7 @@ export default function Register() {
                                         <img
                                             src={avatarPreview}
                                             className='rounded-circle'
-                                            alt='User Avatar Preview'
+                                            alt='Avatar Preview'
                                         />
                                     </figure>
                                 </div>
@@ -115,7 +111,7 @@ export default function Register() {
                                         name='avatar'
                                         className='custom-file-input'
                                         id='customFile'
-                                        onChange={onChange}
+                                        onChange={onChangeAvatar}
                                     />
                                     <label className='custom-file-label' htmlFor='customFile'>
                                         Choose Avatar
@@ -124,14 +120,7 @@ export default function Register() {
                             </div>
                         </div>
 
-                        <button
-                            id="register_button"
-                            type="submit"
-                            className="btn btn-block py-3"
-                            disabled={loading}
-                        >
-                            {loading ? 'Loading...' : 'REGISTER'}
-                        </button>
+                        <button type="submit" className="btn update-btn btn-block mt-4 mb-3" >Update</button>
                     </form>
                 </div>
             </div>
