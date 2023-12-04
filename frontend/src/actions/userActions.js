@@ -117,7 +117,7 @@ export const forgotPassword = (formData) => async (dispatch) => {
                 'Content-type': 'application/json'
             }
         }
-        const { data } = await axios.Post(`/api/v1/password/forgot`, formData, config);
+        const { data} =  await axios.post(`/api/v1/password/forgot`, formData, config);
         dispatch(forgotPasswordSuccess(data))
     } catch (error) {
         dispatch(forgotPasswordFail(error.response.data.message))
@@ -134,7 +134,7 @@ export const resetPassword = (formData, token) => async (dispatch) => {
                 'Content-type': 'application/json'
             }
         }
-        const { data } = await axios.Post(`/api/v1/password/reset/${token}`, formData, config);
+        const { data} =  await axios.post(`/api/v1/password/reset/${token}`, formData, config);
         dispatch(resetPasswordSuccess(data))
     } catch (error) {
         dispatch(resetPasswordFail(error.response.data.message))

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        loading: false,
+        loading: true,
         isAuthenticated: false,
     },
     reducers: {
@@ -64,8 +64,7 @@ const authSlice = createSlice({
         loadUserFail(state, action) {
             return {
                 ...state,
-                loading: false,
-                error: action.payload
+                loading: false
             }
         },
         logoutSuccess(state, action){
@@ -123,33 +122,34 @@ const authSlice = createSlice({
                 error: action.payload
             }
         },
-        forgotPasswordRequest(state, action) {
+        forgotPasswordRequest(state, action){
             return {
                 ...state,
-                loading: true
+                loading: true,
+                message: null
             }
         },
-        forgotPasswordSuccess(state, action) {
+        forgotPasswordSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 message: action.payload.message
             }
         },
-        forgotPasswordFail(state, action) {
+        forgotPasswordFail(state, action){
             return {
                 ...state,
                 loading: false,
                 error: action.payload
             }
         },
-        resetPasswordRequest(state, action) {
+        resetPasswordRequest(state, action){
             return {
                 ...state,
                 loading: true
             }
         },
-        resetPasswordSuccess(state, action) {
+        resetPasswordSuccess(state, action){
             return {
                 ...state,
                 loading: false,
@@ -157,7 +157,7 @@ const authSlice = createSlice({
                 user: action.payload.user
             }
         },
-        resetPasswordFail(state, action) {
+        resetPasswordFail(state, action){
             return {
                 ...state,
                 loading: false,

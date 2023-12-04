@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
     const dispatch = useDispatch()
-    const { loading, user, message, error } = useSelector((state) => state.authState)
+    const { message, error } = useSelector((state) => state.authState)
 
 
 
@@ -21,7 +21,7 @@ export default function ForgotPassword() {
     useEffect(() => {
 
         if (message) {
-            toast(message, {
+            toast(`${message} and your reset link is valid 10min`, {
                 type: 'success',
                 position: toast.POSITION.BOTTOM_CENTER,
             })
@@ -34,11 +34,12 @@ export default function ForgotPassword() {
                 type: 'error',
                 onOpen: () => {
                     dispatch(clearAuthError)
-                }
+                },
+
             })
             return
         }
-    }, [message, error, dispatch, ])
+    }, [message, error, dispatch])
     return (
         <>
             <MetaData title={'Forgot Password'} />

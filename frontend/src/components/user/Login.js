@@ -28,7 +28,7 @@ export default function Login() {
             toast(error, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 type: 'error',
-                onChange: () => {
+                onOpen: () => {
                     dispatch(clearAuthError)
                 }
             })

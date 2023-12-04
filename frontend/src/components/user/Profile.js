@@ -29,7 +29,7 @@ export default function Profile() {
                     <h6>Joined</h6>
                     <small>{String(user.createdAt).substring(0,10)}</small>
 
-                    <Link to="#" className="btn btn-danger btn-block mt-5">
+                    <Link to="javascript;" className="btn btn-danger btn-block mt-5">
                         My Orders
                     </Link>
 
