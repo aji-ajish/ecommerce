@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProduct } from '../../actions/productActions'
 import { useParams } from 'react-router-dom'
@@ -6,12 +6,29 @@ import { toast } from 'react-toastify';
 import Loader from '../layouts/Loader';
 import { Carousel } from 'react-bootstrap'
 import MetaData from '../layouts/MetaData';
+import { addCartItem } from '../../actions/cartActions';
+import { indianRupee } from '../../util/currencyFormate';
 
 export default function ProductDetail() {
     const dispatch = useDispatch()
     const { id } = useParams()
     const { product, loading, error } = useSelector((state) => state.productState)
+    const [quantity, setQuantity] = useState(1)
 
+
+    const increaseQty = () => {
+        const count = Number(document.querySelector('.count').value)
+        if (product.stock === 0 || count >= product.stock) return;
+
+        const qty = count + 1
+        setQuantity(qty)
+    }
+    const decreaseQty = () => {
+        const count = Number(document.querySelector('.count').value)
+        if (count === 1) return;
+        const qty = count - 1
+        setQuantity(qty)
+    }
 
     useEffect(() => {
         if (error) {
@@ -53,15 +70,20 @@ export default function ProductDetail() {
 
                             <hr />
 
-                            <p id="product_price">${product.price}</p>
+                            <p id="product_price">{indianRupee(product.price)}</p>
                             <div className="stockCounter d-inline">
-                                <span className="btn btn-danger minus">-</span>
+                                {product.stock === 0 ? '' : <>
+                                    <span className="btn btn-danger minus" onClick={decreaseQty}>-</span>
 
-                                <input type="text" className="form-control count d-inline" value="1" readOnly />
+                                    <input type="text" className="form-control count d-inline" value={quantity} readOnly />
 
-                                <span className="btn btn-primary plus">+</span>
+                                    <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
+                                </>}
+
                             </div>
-                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
+                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" onClick={()=>dispatch(addCartItem(product._id,quantity))} 
+                            disabled={product.stock === 0 ? true : false}>
+                                {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</button>
 
                             <hr />
 

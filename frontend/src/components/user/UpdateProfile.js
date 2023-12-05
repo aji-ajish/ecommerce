@@ -4,6 +4,7 @@ import { clearAuthError, updateProfile } from '../../actions/userActions'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import MetaData from '../layouts/MetaData';
+import { clearUpdateProfile } from '../../slices/authSlice';
 
 export default function UpdateProfile() {
     const { user, error, isUpdated } = useSelector((state) => state.authState)
@@ -45,7 +46,10 @@ export default function UpdateProfile() {
         if (isUpdated) {
             toast('Profile updated successfully', {
                 type: 'success',
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                onOpen: () => {
+                    dispatch(clearUpdateProfile())
+                }
             })
             navigate('/myprofile')
             return

@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProductSearch from './components/product/ProductSearch';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import store from './store'
 import { loadUser } from './actions/userActions';
 import Profile from './components/user/Profile';
@@ -19,12 +19,25 @@ import UpdateProfile from './components/user/UpdateProfile';
 import UpdatePassword from './components/user/UpdatePassword';
 import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
+import Cart from './components/Cart/Cart';
+import Shipping from './components/Cart/Shipping';
+import ConfirmOrder from './components/Cart/ConfirmOrder';
+import Payment from './components/Cart/Payment';
+import axios from 'axios';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
 
 function App() {
-
+  const [striptApiKey, setStripeApiKey] = useState('')
   useEffect(() => {
     store.dispatch(loadUser)
-  })
+    async function getStripeApiKey() {
+      const { data } = await axios.get('/api/v1/stripeapi')
+      setStripeApiKey(data.striptApiKey)
+    }
+    getStripeApiKey()
+  }, [])
   return (
     <Router>
       <div className="App">
@@ -36,6 +49,7 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path='/search/:keyword' element={<ProductSearch />} />
+              <Route path='/search/:keyword/product/:id' element={<ProductDetail />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/myprofile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
@@ -43,6 +57,10 @@ function App() {
               <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword /></ProtectedRoute>} />
               <Route path='/password/forgot' element={<ForgotPassword />} />
               <Route path='/password/reset/:token' element={<ResetPassword />} />
+              <Route path='/cart' element={<Cart />} />
+              <Route path='/shipping' element={<ProtectedRoute><Shipping /></ProtectedRoute>} />
+              <Route path='/order/confirm' element={<ProtectedRoute><ConfirmOrder /></ProtectedRoute>} />
+              {striptApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(striptApiKey)}><Payment /></Elements></ProtectedRoute>} />}
             </Routes>
           </div>
           <Footer />

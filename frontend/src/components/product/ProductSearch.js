@@ -11,6 +11,7 @@ import Slider from 'rc-slider';
 import Tooltip from 'rc-tooltip'
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css'
+import { indianRupee } from '../../util/currencyFormate';
 
 
 
@@ -69,8 +70,8 @@ export default function ProductSearch() {
                                     <Slider
                                         range={true}
                                         marks={{
-                                            1: "$1",
-                                            1000: "$1000"
+                                            1: `${indianRupee(1)}`,
+                                            1000: `${indianRupee(1000)}`
                                         }}
                                         min={1}
                                         max={1000}

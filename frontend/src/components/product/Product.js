@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { indianRupee } from '../../util/currencyFormate'
 
 export default function Product({product,col}) {
     return (
@@ -16,7 +17,7 @@ export default function Product({product,col}) {
                         </div>
                         <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
                     </div>
-                    <p className="card-text">${product.price}</p>
+                    <p className="card-text">{indianRupee(product.price)}</p>
                     <Link  to={`product/${product._id}`} id="view_btn" className="btn btn-block">View Details</Link>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import { logout } from '../../actions/userActions';
 
 export default function Header() {
     const { user, isAuthenticated } = useSelector((state) => state.authState)
+    const { items } = useSelector((state) => state.cartState)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -48,9 +49,10 @@ export default function Header() {
                 ) :
                     <Link to='/login' className="btn" id="login_btn">Login</Link>
             }
-
-                <span id="cart" className="ml-3">Cart</span>
-                <span className="ml-1" id="cart_count">2</span>
+                <Link to='/cart'>
+                    <span className="ml-3">Cart</span>
+                    <span className="ml-1" id="cart_count">{items.length}</span>
+                </Link>
             </div>
         </nav>
     )

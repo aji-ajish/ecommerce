@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import MetaData from '../layouts/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearAuthError, login } from '../../actions/userActions'
@@ -12,8 +12,9 @@ export default function Login() {
     const dispatch = useDispatch()
     const { loading, error, isAuthenticated } = useSelector((state) => state.authState)
     const navigate = useNavigate()
+    const location = useLocation()
 
-
+    const redirect = location.search ? '/' + location.search.split('=')[1] : '/'
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(login(email, password))
@@ -21,8 +22,8 @@ export default function Login() {
 
     useEffect(() => {
         if (isAuthenticated) {
-             navigate('/')
-             return
+            navigate(redirect)
+            return
         }
         if (error) {
             toast(error, {
@@ -35,7 +36,7 @@ export default function Login() {
             return
         }
 
-    }, [isAuthenticated, navigate, error,dispatch])
+    }, [isAuthenticated, navigate, error, dispatch,redirect])
 
     return (
         <>
