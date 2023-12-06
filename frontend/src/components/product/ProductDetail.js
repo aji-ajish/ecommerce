@@ -4,7 +4,7 @@ import { createReview, getProduct } from '../../actions/productActions'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import Loader from '../layouts/Loader';
-import { Button, Carousel, Modal } from 'react-bootstrap'
+import { Carousel, Modal } from 'react-bootstrap'
 import MetaData from '../layouts/MetaData';
 import { addCartItem } from '../../actions/cartActions';
 import { indianRupee } from '../../util/currencyFormate';

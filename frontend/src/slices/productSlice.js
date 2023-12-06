@@ -5,7 +5,8 @@ const productSlice = createSlice({
     initialState: {
         loading: false,
         product: {},
-        isReviewSubmitted: false
+        isReviewSubmitted: false,
+        isProductCreated: false,
     },
     reducers: {
         productRequest(state, action) {
@@ -53,7 +54,36 @@ const productSlice = createSlice({
                 ...state,
                 isReviewSubmitted: false
             }
-        }, clearProduct(state, action) {
+        },
+        newProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        newProductSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                product: action.payload.product,
+                isProductCreated: true
+            }
+        },
+        newProductFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+                isProductCreated: false
+            }
+        },
+        clearProductCreated(state, action) {
+            return {
+                ...state,
+                isProductCreated: false
+            }
+        },
+        clearProduct(state, action) {
             return {
                 ...state,
                 product: {}
@@ -75,6 +105,10 @@ export const { productRequest,
     createReviewSuccess,
     createReviewFail,
     clearReviewSubmitted,
+    newProductRequest,
+    newProductSuccess,
+    newProductFail,
+    clearProductCreated,
     clearProduct,
     clearError } = productSlice.actions
 export default productSlice.reducer

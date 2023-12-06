@@ -29,12 +29,13 @@ import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './components/Cart/OrderSuccess';
 import UserOrders from './components/order/UserOrders';
 import OrderDetail from './components/order/OrderDetail';
-import { useDispatch } from 'react-redux';
+import Dashboard from './components/admin/Dashboard';
+import ProductList from './components/admin/ProductList';
+import NewProduct from './components/admin/NewProduct';
 
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
-  const dispath=useDispatch()
   useEffect(() => {
     store.dispatch(loadUser)
     async function getStripeApiKey() {
@@ -71,6 +72,11 @@ function App() {
               {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment /></Elements></ProtectedRoute>} />}
             </Routes>
           </div>
+          <Routes>
+            <Route path='/admin/dashboard' element={<ProtectedRoute isAdmin={true}><Dashboard /></ProtectedRoute>} />
+            <Route path='/admin/products' element={<ProtectedRoute isAdmin={true}><ProductList /></ProtectedRoute>} />
+            <Route path='/admin/products/create' element={<ProtectedRoute isAdmin={true}><NewProduct /></ProtectedRoute>} />
+          </Routes>
           <Footer />
         </HelmetProvider>
       </div>

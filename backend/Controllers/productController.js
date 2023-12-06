@@ -10,15 +10,15 @@ exports.getProducts = async (req, res, next) => {
     let buildQuery = () => {
         return new APIFeatures(Product.find(), req.query).search().filter()
     }
-    
+
     const filteredProductsCount = await buildQuery().query.countDocuments({})
     const totalProductsCount = await Product.countDocuments({});
     let productsCount = totalProductsCount;
 
-    if(filteredProductsCount !== totalProductsCount) {
+    if (filteredProductsCount !== totalProductsCount) {
         productsCount = filteredProductsCount;
     }
-    
+
     const products = await buildQuery().paginate(resultPerPage).query;
 
     res.status(200).json({
@@ -31,6 +31,16 @@ exports.getProducts = async (req, res, next) => {
 
 //add product  /api/v1/admin/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
+    let images = []
+    if (req.files.length > 0) {
+        req.files.foreach((file => {
+            let url = `${process.env.BACKEND_URL}/uploads/products/${file.originalname}`
+            images.push({ image: url })
+        }))
+    }
+
+    req.body.images = images;
+
     req.body.user = req.user.id;
     const product = await Product.create(req.body)
     res.status(201).json({
@@ -41,7 +51,7 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
 //get single product  /api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
-    const product = await Product.findById(req.params.id).populate('reviews.user','name email')
+    const product = await Product.findById(req.params.id).populate('reviews.user', 'name email')
     if (!product) {
         return next(new ErrorHandler('Product not found', 400))
     }
@@ -158,5 +168,14 @@ exports.deleteReview = catchAsyncError(async (req, res, next) => {
     })
     res.status(200).json({
         success: true
+    })
+})
+
+//get admin products api/v1/admin/products
+exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
+    const products = await Product.find()
+    res.status(200).json({
+        success: true,
+        products
     })
 })
