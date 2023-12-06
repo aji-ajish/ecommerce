@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import MetaData from '../layouts/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,35 +9,35 @@ import { clearError, clearProductCreated } from '../../slices/productSlice'
 import { createNewProduct } from '../../actions/productActions'
 
 export default function NewProduct() {
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
-    const [description, setDescription] = useState()
-    const [category, setCategory] = useState('')
-    const [stock, setStock] = useState(0)
-    const [seller, setSeller] = useState('')
-    const [images, setImages] = useState([])
-    const [imagesPreview, setImagesPreview] = useState([])
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
+    const [stock, setStock] = useState(0);
+    const [seller, setSeller] = useState('');
+    const [images, setImages] = useState([]);
+    const [imagesPreview, setImagesPreview] = useState([]);
 
     const { isProductCreated, loading, error } = useSelector((state) => state.productState)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const categories = [
-        "Electronics",
-        "Headphones",
-        "Mobile Phones",
-        "Laptops",
-        "Accessories",
-        "Food",
-        "Books",
-        "Clothes/Shoes",
-        "Beauty/Health",
-        "Sports",
-        "Outdoor",
-        "Home"
+        'Electronics',
+        'Headphones',
+        'Mobile Phones',
+        'Laptops',
+        'Accessories',
+        'Food',
+        'Books',
+        'Clothes/Shoes',
+        'Beauty/Health',
+        'Sports',
+        'Outdoor',
+        'Home'
     ]
 
-    const onImageChange = (e) => {
+    const onImagesChange = (e) => {
         const files = Array.from(e.target.files)
         files.forEach(file => {
             const reader = new FileReader();
@@ -51,23 +51,23 @@ export default function NewProduct() {
         })
     }
     const submitHandler = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const formData = new FormData();
-        formData.append('name', name)
-        formData.append('price', price)
-        formData.append('description', description)
-        formData.append('category', category)
-        formData.append('stock', stock)
-        formData.append('seller', seller)
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('category', category);
+        formData.append('stock', stock);
+        formData.append('seller', seller);
         images.forEach(image => {
-            formData.append('images', images)
+            formData.append('images', image)
         })
         dispatch(createNewProduct(formData))
     }
 
     useEffect(() => {
-        if(isProductCreated) {
-            toast('Product Created Succesfully!',{
+        if (isProductCreated) {
+            toast('Product Created Succesfully!', {
                 type: 'success',
                 position: toast.POSITION.BOTTOM_CENTER,
                 onOpen: () => dispatch(clearProductCreated())
@@ -76,11 +76,11 @@ export default function NewProduct() {
             return;
         }
 
-        if(error)  {
+        if (error) {
             toast(error, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 type: 'error',
-                onOpen: ()=> { dispatch(clearError()) }
+                onOpen: () => { dispatch(clearError()) }
             })
             return
         }
@@ -106,7 +106,7 @@ export default function NewProduct() {
                                     id="name_field"
                                     className="form-control"
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={e => setName(e.target.value)}
                                 />
                             </div>
 
@@ -117,7 +117,7 @@ export default function NewProduct() {
                                     id="price_field"
                                     className="form-control"
                                     value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
+                                    onChange={e => setPrice(e.target.value)}
                                 />
                             </div>
 
@@ -125,18 +125,18 @@ export default function NewProduct() {
                                 <label htmlFor="description_field">Description</label>
                                 <textarea className="form-control" id="description_field" rows="8"
                                     value={description}
-                                    onChange={(e) => setDescription(e.target.value)} />
+                                    onChange={e => setDescription(e.target.value)} />
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="category_field">Category</label>
-                                <select onChange={(e) => setCategory(e.target.value)} className="form-control" id="category_field">
+                                <select onChange={e => setCategory(e.target.value)} className="form-control" id="category_field">
                                     <option value="">Select Category</option>
-                                    {categories.map(category =>
+                                    {categories.map(category => (
                                         <option key={category} value={category}>
                                             {category}
                                         </option>
-                                    )}
+                                    ))}
                                 </select>
                             </div>
                             <div className="form-group">
@@ -146,7 +146,7 @@ export default function NewProduct() {
                                     id="stock_field"
                                     className="form-control"
                                     value={stock}
-                                    onChange={(e) => setStock(e.target.value)}
+                                    onChange={e => setStock(e.target.value)}
                                 />
                             </div>
 
@@ -157,7 +157,7 @@ export default function NewProduct() {
                                     id="seller_field"
                                     className="form-control"
                                     value={seller}
-                                    onChange={(e) => setSeller(e.target.value)}
+                                    onChange={e => setSeller(e.target.value)}
                                 />
                             </div>
 
@@ -171,14 +171,15 @@ export default function NewProduct() {
                                         className='custom-file-input'
                                         id='customFile'
                                         multiple
-                                        onChange={onImageChange}
+                                        onChange={onImagesChange}
                                     />
                                     <label className='custom-file-label' htmlFor='customFile'>
                                         Choose Images
                                     </label>
                                 </div>
                                 {imagesPreview.map(image => (
-                                    <img src={image} className='mt-2 mr-2' key={image} alt={image} height={55} width={52} />
+                                    <img className="mt-3 mr-2" key={image} src={image} alt={image} width="55" height="52"
+                                    />
                                 ))}
                             </div>
 

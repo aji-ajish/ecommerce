@@ -33,21 +33,21 @@ exports.getProducts = async (req, res, next) => {
 exports.newProduct = catchAsyncError(async (req, res, next) => {
     let images = []
     if (req.files.length > 0) {
-        req.files.foreach((file => {
+        req.files.forEach(file => {
             let url = `${process.env.BACKEND_URL}/uploads/products/${file.originalname}`
             images.push({ image: url })
-        }))
+        })
     }
 
     req.body.images = images;
 
     req.body.user = req.user.id;
-    const product = await Product.create(req.body)
+    const product = await Product.create(req.body);
     res.status(201).json({
         success: true,
         product
     })
-})
+});
 
 //get single product  /api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
