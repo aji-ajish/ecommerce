@@ -18,7 +18,7 @@ export default function UserOrders() {
         const data = {
             columns: [
                 {
-                    label: 'Order Id',
+                    label: 'Order ID',
                     field: 'id',
                     sort: 'asc'
                 },
@@ -51,8 +51,8 @@ export default function UserOrders() {
                 numOfItems: userOrder.orderItems.length,
                 amount: indianRupee(userOrder.totalPrice),
                 status: userOrder.orderStatus && userOrder.orderStatus.includes("Delivered") ?
-                    (<p style={{ color: 'green' }}>userOrder.orderStatus</p>) :
-                    (<p style={{ color: 'red' }}>userOrder.orderStatus</p>),
+                    (<p style={{ color: 'green' }}> {userOrder.orderStatus} </p>) :
+                    (<p style={{ color: 'red' }}> {userOrder.orderStatus} </p>),
                 actions: <Link to={`/order/${userOrder._id}`} className='btn btn-primary'>
                     <i className='fa fa-eye'></i>
                 </Link>
@@ -62,10 +62,13 @@ export default function UserOrders() {
     }
     return (
         <>
-            <MetaData title={'My Orders'} />
+            <MetaData title="My Orders" />
             <h1 className='mt-5'>My Orders</h1>
             <MDBDataTable
-                className='px-3 bordered striped hover'
+                className='px-3'
+                bordered
+                striped
+                hover
                 data={setOrders()}
             />
         </>

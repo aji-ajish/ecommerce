@@ -4,28 +4,77 @@ const productSlice = createSlice({
     name: 'product',
     initialState: {
         loading: false,
-        product: {}
+        product: {},
+        isReviewSubmitted: false
     },
     reducers: {
         productRequest(state, action) {
             return {
+                ...state,
                 loading: true
             }
         },
         productSuccess(state, action) {
             return {
+                ...state,
                 loading: false,
                 product: action.payload.product
             }
         },
         productFail(state, action) {
             return {
+                ...state,
                 loading: false,
                 error: action.payload
+            }
+        },
+        createReviewRequest(state, action) {
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        createReviewSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isReviewSubmitted: true
+            }
+        },
+        createReviewFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        },
+        clearReviewSubmitted(state, action) {
+            return {
+                ...state,
+                isReviewSubmitted: false
+            }
+        }, clearProduct(state, action) {
+            return {
+                ...state,
+                product: {}
+            }
+        },
+        clearError(state, action) {
+            return {
+                ...state,
+                error: null
             }
         }
     }
 })
 
-export const { productRequest, productSuccess, productFail } = productSlice.actions
+export const { productRequest,
+    productSuccess,
+    productFail,
+    createReviewRequest,
+    createReviewSuccess,
+    createReviewFail,
+    clearReviewSubmitted,
+    clearProduct,
+    clearError } = productSlice.actions
 export default productSlice.reducer
