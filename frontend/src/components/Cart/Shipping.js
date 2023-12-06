@@ -11,7 +11,7 @@ export const validateShipping = (shippingInfo, navigate) => {
 
     if (!shippingInfo.address ||
         !shippingInfo.city ||
-        !shippingInfo.phone ||
+        !shippingInfo.phoneNo ||
         !shippingInfo.postalCode ||
         !shippingInfo.country ||
         !shippingInfo.state) {
@@ -27,7 +27,7 @@ export default function Shipping() {
     const { shippingInfo = {} } = useSelector((state) => state.cartState)
     const [address, setAddress] = useState(shippingInfo.address)
     const [city, setCity] = useState(shippingInfo.city)
-    const [phone, setPhone] = useState(shippingInfo.phone)
+    const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo)
     const [postalCode, setPostalCode] = useState(shippingInfo.postalCode)
     const [country, setCountry] = useState(shippingInfo.country)
     const [state, setState] = useState(shippingInfo.state)
@@ -43,7 +43,7 @@ export default function Shipping() {
         dispatch(saveShippingInfo({
             address,
             city,
-            phone,
+            phoneNo,
             postalCode,
             country,
             state
@@ -87,8 +87,8 @@ export default function Shipping() {
                                 type="phone"
                                 id="phone_field"
                                 className="form-control"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                value={phoneNo}
+                                onChange={(e) => setPhoneNo(e.target.value)}
                                 required />
                         </div>
 
@@ -123,7 +123,7 @@ export default function Shipping() {
                         <div className="form-group">
                             <label htmlFor="state_field">State</label>
                             <input
-                                type="test"
+                                type="text"
                                 id="state_field"
                                 className="form-control"
                                 value={state}

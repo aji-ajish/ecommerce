@@ -74,10 +74,9 @@ const cartSlice = createSlice({
                 shippingInfo: action.payload
             }
         },
-        orderComplete(state, action) {
+        orderCompleted(state, action) {
             localStorage.removeItem('shippingInfo');
-            localStorage.removeItem('cartItems')
-            localStorage.removeItem('orderInfo')
+            localStorage.removeItem('cartItems');
             return {
                 items: [],
                 loading: false,
@@ -93,5 +92,5 @@ export const { addCartItemRequest,
     decreaseCartItemQty,
     removeItemFromCart,
     saveShippingInfo,
-    orderComplete } = cartSlice.actions
+    orderCompleted } = cartSlice.actions
 export default cartSlice.reducer
