@@ -115,7 +115,13 @@ export default function ProductDetail() {
                                 </>}
 
                             </div>
-                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" onClick={() => dispatch(addCartItem(product._id, quantity))}
+                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" onClick={() => {
+                                dispatch(addCartItem(product._id, quantity))
+                                toast('Cart Item Added!', {
+                                    type: 'success',
+                                    position: toast.POSITION.BOTTOM_CENTER
+                                })
+                            }}
                                 disabled={product.stock === 0 ? true : false}>
                                 {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</button>
 
