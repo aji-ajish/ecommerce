@@ -1,10 +1,9 @@
 import React, { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { indianRupee } from '../../util/currencyFormate'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { clearError } from '../../slices/productsSlice'
-import { clearError as productClearError } from '../../slices/productSlice'
 import { deleteProduct, getAdminProducts } from '../../actions/productActions'
 import MetaData from '../layouts/MetaData'
 import Sidebar from './Sidebar'
@@ -17,7 +16,7 @@ export default function ProductList() {
     const { isProductDeleted, error: productError } = useSelector((state) => state.productState)
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
 
     const setProducts = () => {
@@ -59,7 +58,7 @@ export default function ProductList() {
                 stock: product.stock,
                 actions:
                     <>
-                        <Link to={`/admin/product${product._id}`} className='btn btn-primary'>
+                        <Link to={`/admin/product/${product._id}`} className='btn btn-primary'>
                             <i className='fa fa-pencil'></i>
                         </Link>
                         <button
@@ -103,7 +102,7 @@ export default function ProductList() {
         }
 
         dispatch(getAdminProducts)
-    }, [dispatch, error, isProductDeleted])
+    }, [dispatch, error, isProductDeleted,productError])
 
     return (
         <>

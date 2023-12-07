@@ -12,7 +12,9 @@ import {
     newProductSuccess,
     productFail,
     productRequest,
-    productSuccess
+    productSuccess,
+    updateProductFail,
+    updateProductSuccess
 } from '../slices/productSlice'
 
 
@@ -101,6 +103,19 @@ export const deleteProduct = id => async (dispatch) => {
     } catch (error) {
         //handle error
         dispatch(deleteProductFail(error.response.data.message))
+    }
+
+}
+
+export const updateProduct = (id,productData) => async (dispatch) => {
+
+    try {
+        dispatch(updateProductFail())
+        const { data } = await axios.put(`/api/v1/admin/product/${id}`, productData);
+        dispatch(updateProductSuccess(data))
+    } catch (error) {
+        //handle error
+        dispatch(updateProductFail(error.response.data.message))
     }
 
 }
