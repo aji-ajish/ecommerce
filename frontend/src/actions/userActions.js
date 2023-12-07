@@ -189,7 +189,7 @@ export const deleteUser = id => async (dispatch) => {
     }
 }
 
-export const updateUser = (id,formData) => async (dispatch) => {
+export const updateUser = (id, formData) => async (dispatch) => {
 
     try {
         dispatch(updateUserRequest())

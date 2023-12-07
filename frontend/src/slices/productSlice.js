@@ -8,7 +8,9 @@ const productSlice = createSlice({
         isReviewSubmitted: false,
         isProductCreated: false,
         isProductDeleted: false,
-        isProductUpdated: false
+        isProductUpdated: false,
+        isReviewDeleted: false,
+        reviews: []
     },
     reducers: {
         productRequest(state, action) {
@@ -145,6 +147,52 @@ const productSlice = createSlice({
                 product: {}
             }
         },
+        reviewsRequest(state, action) {
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        reviewsSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                reviews: action.payload.reviews
+            }
+        },
+        reviewsFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        },
+        deleteReviewRequest(state, action) {
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteReviewSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isReviewDeleted: true
+            }
+        },
+        deleteReviewFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            }
+        },
+        clearReviewDeleted(state, action) {
+            return {
+                ...state,
+                isReviewDeleted: false
+            }
+        },
         clearError(state, action) {
             return {
                 ...state,
@@ -174,5 +222,12 @@ export const { productRequest,
     updateProductRequest,
     updateProductSuccess,
     updateProductFail,
+    reviewsRequest,
+    reviewsSuccess,
+    reviewsFail,
+    deleteReviewRequest,
+    deleteReviewSuccess,
+    deleteReviewFail,
+    clearReviewDeleted,
     clearProductUpdated } = productSlice.actions
 export default productSlice.reducer

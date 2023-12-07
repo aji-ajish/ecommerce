@@ -4,7 +4,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: {
         loading: false,
-        // user: {},
+        user: {},
         users: [],
         isUserUpdated: false,
         isUserDeleted: false
@@ -20,7 +20,7 @@ const userSlice = createSlice({
             return {
                 ...state,
                 loading: false,
-                users: action.payload.users,
+                users: action.payload.user,
             }
         },
         usersFail(state, action) {
@@ -109,9 +109,11 @@ const userSlice = createSlice({
             }
         }
     }
-})
+});
+const { actions, reducer } = userSlice;
 
-export const { usersRequest,
+export const {
+    usersRequest,
     usersSuccess,
     usersFail,
     userRequest,
@@ -125,5 +127,8 @@ export const { usersRequest,
     updateUserFail,
     clearUserDeleted,
     clearUserUpdated,
-    clearError } = userSlice.actions
-export default userSlice.reducer
+    clearError
+
+} = actions;
+
+export default reducer;
