@@ -25,6 +25,20 @@ import {
     updateProfileRequest,
     updateProfileSuccess
 } from "../slices/authSlice"
+import {
+    deleteUserFail,
+    deleteUserRequest,
+    deleteUserSuccess,
+    updateUserFail,
+    updateUserRequest,
+    updateUserSuccess,
+    userFail,
+    userRequest,
+    userSuccess,
+    usersFail,
+    usersRequest,
+    usersSuccess
+} from "../slices/userSlice"
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -64,7 +78,7 @@ export const loadUser = async (dispatch) => {
     }
 }
 
-export const logout =  async (dispatch) => {
+export const logout = async (dispatch) => {
 
     try {
         await axios.get(`/api/v1/logout`);
@@ -117,7 +131,7 @@ export const forgotPassword = (formData) => async (dispatch) => {
                 'Content-type': 'application/json'
             }
         }
-        const { data} =  await axios.post(`/api/v1/password/forgot`, formData, config);
+        const { data } = await axios.post(`/api/v1/password/forgot`, formData, config);
         dispatch(forgotPasswordSuccess(data))
     } catch (error) {
         dispatch(forgotPasswordFail(error.response.data.message))
@@ -134,10 +148,60 @@ export const resetPassword = (formData, token) => async (dispatch) => {
                 'Content-type': 'application/json'
             }
         }
-        const { data} =  await axios.post(`/api/v1/password/reset/${token}`, formData, config);
+        const { data } = await axios.post(`/api/v1/password/reset/${token}`, formData, config);
         dispatch(resetPasswordSuccess(data))
     } catch (error) {
         dispatch(resetPasswordFail(error.response.data.message))
+    }
+
+}
+
+export const getUsers = async (dispatch) => {
+    try {
+        dispatch(usersRequest())
+        const { data } = await axios.get(`/api/v1/admin/users`)
+        dispatch(usersSuccess(data))
+    } catch (error) {
+        // handle error
+        dispatch(usersFail(error.response.data.message))
+    }
+}
+
+export const getUser = id => async (dispatch) => {
+    try {
+        dispatch(userRequest())
+        const { data } = await axios.get(`/api/v1/admin/user/${id}`)
+        dispatch(userSuccess(data))
+    } catch (error) {
+        // handle error
+        dispatch(userFail(error.response.data.message))
+    }
+}
+
+export const deleteUser = id => async (dispatch) => {
+    try {
+        dispatch(deleteUserRequest())
+        await axios.delete(`/api/v1/admin/user/${id}`)
+        dispatch(deleteUserSuccess())
+    } catch (error) {
+        // handle error
+        dispatch(deleteUserFail(error.response.data.message))
+    }
+}
+
+export const updateUser = (id,formData) => async (dispatch) => {
+
+    try {
+        dispatch(updateUserRequest())
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+        await axios.put(`/api/v1/admin/user/${id}`, formData, config);
+        dispatch(updateUserSuccess())
+    } catch (error) {
+        dispatch(updateUserFail(error.response.data.message))
     }
 
 }
