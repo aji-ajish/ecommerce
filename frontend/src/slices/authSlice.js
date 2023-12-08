@@ -30,13 +30,13 @@ const authSlice = createSlice({
         registerRequest(state, action) {
             return {
                 ...state,
-                loading: true
+                loading: true,
             }
         },
         registerSuccess(state, action) {
             return {
                 loading: false,
-                isAuthenticated: false,
+                isAuthenticated: true,
                 user: action.payload.user
             }
         },

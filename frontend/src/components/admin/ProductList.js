@@ -55,7 +55,7 @@ export default function ProductList() {
                 id: product._id,
                 name: product.name,
                 price: indianRupee(product.price),
-                stock: product.stock,
+                stock: <td className={product.stock === 0 ? 'bg-danger' : ''}>{product.stock}</td>,
                 actions:
                     <>
                         <Link to={`/admin/product/${product._id}`} className='btn btn-primary'>
@@ -102,7 +102,7 @@ export default function ProductList() {
         }
 
         dispatch(getAdminProducts)
-    }, [dispatch, error, isProductDeleted,productError])
+    }, [dispatch, error, isProductDeleted, productError])
 
     return (
         <>

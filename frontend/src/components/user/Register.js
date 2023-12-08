@@ -43,7 +43,11 @@ export default function Register() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/login')
+            toast('Register Successfully', {
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'success',
+            })
+            navigate('/')
             return
         }
         if (error) {
